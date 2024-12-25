@@ -70,7 +70,7 @@ function Signup() {
 
   return (
     <div className="signup-container">
-      <h2>Signup</h2>
+      <h2>Kayıt Ol</h2>
       <ToastContainer />
       <form className="signup-form">
         <label>
@@ -92,7 +92,7 @@ function Signup() {
             placeholder="Şifrenizi girin"
           />
         <button type="button" onClick={handleSignup}>
-          Signup
+          Kayıt Ol
         </button>
       </form>
       <p>

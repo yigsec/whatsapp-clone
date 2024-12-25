@@ -67,7 +67,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Giriş Yap</h2>
       <ToastContainer />
       <form className="login-form">
         <label>
@@ -89,7 +89,7 @@ function Login() {
             placeholder="Şifrenizi girin"
           />
         <button type="button" onClick={handleLogin}>
-          Login
+          Giriş Yap
         </button>
       </form>
       <p>

@@ -400,7 +400,7 @@ function Chat() {
               <div class="me_head">
                 <div class="head__avatar avatar_me avatar_larger">
                   <a href="#" class="avatar__wrap">
-                    Me:
+                    Ben:
                   </a>
                 </div>
                 <div class="me_title">{currentUserName}</div>
@@ -470,7 +470,7 @@ function Chat() {
                 <div class="enter">
                   <div class="enter__submit">
                     <button class="button button_id_submit" type="button" onClick={() => sendMessage(selectedUser, enterMessage)}>
-                      <FontAwesomeIcon icon="paper-plane" /> send
+                      <FontAwesomeIcon icon="paper-plane" /> Gönder
                     </button>
                   </div>
                   <div class="enter__textarea">
@@ -478,7 +478,7 @@ function Chat() {
                       id="enterMessage"  
                       cols="30"  
                       rows="2" 
-                      placeholder="..."
+                      placeholder="Mesaj yazınız..."
                       value={enterMessage}
                       onChange={(e) => setEnterMessage(e.target.value)}
                       onKeyDown={handleEnterKeyDown}>

@@ -127,11 +127,12 @@ button:focus {
 
 .modal__sidebar {
   flex: 0 0 268px;
-  background-color: #eff0f5;
+  background-color: #4f6983;
 }
 
 .modal__main {
   flex: 1 1 auto;
+  background-color: #4f6983;
 }
 
 .close {
@@ -174,12 +175,13 @@ button:focus {
 
 .chat__search {
   padding: 26px 23px 24px 21px;
+  background-color: #141618;
 }
 
 .me__content {
     display: block;
     height: 70px;
-    background-color: #a3a3a3;
+    background-color: #0d0e0f;
   }
 
 .me_head{
@@ -211,6 +213,7 @@ button:focus {
 }
 
 .chat__users {
+  background-color: #141618;
   padding: 18px 19px 22px 15px;
   height: 500px;
 }
@@ -320,6 +323,7 @@ button:focus {
   width: 100%;
   padding: 0 26px;
   position: relative;
+  background-color: #4f6983;
 }
 
 .chatbox__row {
@@ -390,6 +394,7 @@ button:focus {
 
 .chatbox__content {
   height: 100%;
+  background-color: #ffffff;
 }
 
 
