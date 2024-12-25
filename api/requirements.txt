@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+werkzeug
+psycopg2-binary
+PyJWT
+kafka-python
