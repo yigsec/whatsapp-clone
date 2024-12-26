@@ -1,7 +1,6 @@
 import os
 
 class Settings:
-
     POSTGRES_HOST = os.getenv('POSTGRES_HOST')
     POSTGRES_PORT = os.getenv('POSTGRES_PORT')
     POSTGRES_DB = os.getenv('POSTGRES_DB')

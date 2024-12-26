@@ -12,3 +12,11 @@ def sort_and_merge_lists(list1, list2):
     result_list = sorted_list2 + sorted_list1
 
     return result_list
+
+def sanitize_text(text):
+    return ' '.join(text.strip().split())
+
+def validate_field(field):
+    if field is None or sanitize_text(field) == "":
+        return False
+    return True

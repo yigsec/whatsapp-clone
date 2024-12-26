@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 import jwt
 
 
-SECRET_KEY = "your-secret-key"
+SECRET_KEY = "wXXNy/sx7EVyCG7/tY9eNhI/N4v5CQRQffKGMYu2ir8="
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
