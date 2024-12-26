@@ -65,59 +65,56 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <body className="bg-light">
-        <div className="container vh-100 d-flex justify-content-center align-items-center">
-          <div
-            className="card shadow-sm p-4"
-            style={{ width: "100%", maxWidth: "400px" }}
-          >
-            <h3 className="text-center mb-4">Giriş Yap</h3>
-            <form>
-              <div className="mb-3">
-                <label for="name" className="form-label">
-                  Kullanıcı Adı
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Adınızı giriniz..."
-                />
-              </div>
-              <div className="mb-3">
-                <label for="password" className="form-label">
-                  Şifre
-                </label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="form-control"
-                  id="password"
-                  placeholder="Şifrenizi giriniz..."
-                ></input>
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary w-100"
-                onClick={handleLogin}
-              >
-                Giriş Yap
-              </button>
-              <p className="text-center mt-3">
-                Hesabınız yok mu? <Link to="/signup">Kayıt Ol</Link>
-              </p>
-            </form>
-          </div>
+    <div className="bg-light">
+      <div className="container vh-100 d-flex justify-content-center align-items-center">
+        <div
+          className="card shadow-sm p-4"
+          style={{ width: "100%", maxWidth: "400px" }}
+        >
+          <h3 className="text-center mb-4">Giriş Yap</h3>
+          <form>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label">
+                Kullanıcı Adı
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Adınızı giriniz..."
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Şifre
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-control"
+                id="password"
+                placeholder="Şifrenizi giriniz..."
+              ></input>
+            </div>
+            <button
+              type="button"
+              className="btn btn-primary w-100"
+              onClick={handleLogin}
+            >
+              Giriş Yap
+            </button>
+            <p className="text-center mt-3">
+              Hesabınız yok mu? <Link to="/signup">Kayıt Ol</Link>
+            </p>
+          </form>
         </div>
-      </body>
-      <ToastContainer />
-      <form className="login-form"></form>
-      {/* Eğer accessToken varsa, göster */}
-      {accessToken && <p>Erişim Tokeni: {accessToken}</p>}
+        <ToastContainer />
+        {/* Eğer accessToken varsa, göster */}
+        {accessToken && <p>Erişim Tokeni: {accessToken}</p>}
+      </div>
     </div>
   );
 }

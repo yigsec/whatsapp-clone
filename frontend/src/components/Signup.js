@@ -68,7 +68,7 @@ function Signup() {
   };
 
   return (
-    <body class="bg-light">
+    <div class="bg-light">
       <div class="container vh-100 d-flex justify-content-center align-items-center">
         <div
           class="card shadow-sm p-4"
@@ -114,10 +114,9 @@ function Signup() {
             </p>
           </form>
         </div>
+        <ToastContainer />
       </div>
-
-      <ToastContainer />
-    </body>
+    </div>
   );
 }
 

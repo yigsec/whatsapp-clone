@@ -95,7 +95,7 @@ function Chat() {
         sent_at: formattedDate,
       };
       console.log(payload);
-
+      console.log(JSON.stringify(payload));
       // Send the payload as a JSON string through the WebSocket
       ws.current.send(JSON.stringify(payload));
 
@@ -341,106 +341,101 @@ function Chat() {
   }, [startWebSocket]);
 
   return (
-    <body>
-      <div className="container-fluid vh-100">
-        <div className="row h-100">
-          <div className="col-md-3 col-lg-2 bg-light border-end p-3">
-            <div className="d-flex flex-column h-100">
-              <div className="mb-4 text-center">
-                <h5 className="mb-0">{currentUserName}</h5>
-                <small className="text-muted">Çevrimiçi</small>
-              </div>
-              <div className="mb-4">
-                <h6 className="text-muted">Kişiler</h6>
-                <ul className="list-group list-group-flush">
-                  {users.map((user) => (
-                    <li
-                      className={`list-group-item d-flex align-items-center ${
-                        activeUsers.includes(user) ? "text-success" : ""
-                      } ${selectedUser === user ? "bg-secondary" : ""}`}
-                      key={user}
-                      onClick={() => setSelectedUser(user)}
+    <div className="container-fluid vh-100">
+      <div className="row h-100">
+        <div className="col-md-3 col-lg-2 bg-light border-end p-3">
+          <div className="d-flex flex-column h-100">
+            <div className="mb-4 text-center">
+              <h5 className="mb-0">{currentUserName}</h5>
+              <small className="text-muted">Çevrimiçi</small>
+            </div>
+            <div className="mb-4">
+              <h6 className="text-muted">Kişiler</h6>
+              <ul className="list-group list-group-flush">
+                {users.map((user) => (
+                  <li
+                    className={`list-group-item d-flex align-items-center ${
+                      activeUsers.includes(user) ? "text-success" : ""
+                    } ${selectedUser === user ? "bg-secondary" : ""}`}
+                    key={user}
+                    onClick={() => setSelectedUser(user)}
+                  >
+                    <span>{user}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-auto">
+              <button className="btn btn-danger w-100" onClick={() => logout()}>
+                Çıkış Yap
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-9 col-lg-10 d-flex flex-column">
+          <div className="row bg-primary text-white py-3">
+            <div className="col">
+              <h4 className="text-center">
+                {selectedUser ? `${selectedUser}` : ""}
+              </h4>
+            </div>
+          </div>
+          <div
+            className="row flex-grow-1 overflow-auto p-3"
+            id="chat-box"
+            style={{ backgroundColor: "#f8f9fa" }}
+            ref={chatboxRef}
+          >
+            <div className="col">
+              <div className="d-flex flex-column">
+                {messageHistory.map((message) => (
+                  <div
+                    className={`w-auto ${
+                      message.sender === currentUserName
+                        ? "align-self-end"
+                        : "align-self-start"
+                    }`}
+                    key={message.id}
+                  >
+                    <span className="text-muted">{message.sent_at}</span>
+
+                    <div
+                      className={`alert mb-2 w-auto ${
+                        message.sender === currentUserName
+                          ? "alert-secondary"
+                          : "alert-primary"
+                      }`}
                     >
-                      <span>{user}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-auto">
-                <button
-                  className="btn btn-danger w-100"
-                  onClick={() => logout()}
-                >
-                  Çıkış Yap
-                </button>
+                      {message.message_text}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-          <div className="col-md-9 col-lg-10 d-flex flex-column">
-            <div className="row bg-primary text-white py-3">
-              <div className="col">
-                <h4 className="text-center">
-                  {selectedUser ? `${selectedUser}` : ""}
-                </h4>
-              </div>
+          <div className="row py-3">
+            <div className="col-10">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Mesaj yazınız..."
+                value={enterMessage}
+                onChange={(e) => setEnterMessage(e.target.value)}
+                onKeyDown={handleEnterKeyDown}
+              />
             </div>
-            <div
-              className="row flex-grow-1 overflow-auto p-3"
-              id="chat-box"
-              style={{ backgroundColor: "#f8f9fa" }}
-              ref={chatboxRef}
-            >
-              <div className="col">
-                <div className="d-flex flex-column">
-                  {messageHistory.map((message) => (
-                    <div
-                      className={`w-auto ${
-                        message.sender === currentUserName
-                          ? "align-self-end"
-                          : "align-self-start"
-                      }`}
-                      key={message.id}
-                    >
-                      <span className="text-muted">{message.sent_at}</span>
-
-                      <div
-                        className={`alert mb-2 w-auto ${
-                          message.sender === currentUserName
-                            ? "alert-secondary"
-                            : "alert-primary"
-                        }`}
-                      >
-                        {message.message_text}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="row py-3">
-              <div className="col-10">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Mesaj yazınız..."
-                  value={enterMessage}
-                  onChange={(e) => setEnterMessage(e.target.value)}
-                  onKeyDown={handleEnterKeyDown}
-                />
-              </div>
-              <div className="col-2">
-                <button
-                  className="btn btn-primary w-100"
-                  onClick={() => sendMessage(selectedUser, enterMessage)}
-                >
-                  Gönder
-                </button>
-              </div>
+            <div className="col-2">
+              <button
+                className="btn btn-primary w-100"
+                onClick={() => sendMessage(selectedUser, enterMessage)}
+              >
+                Gönder
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </body>
+    </div>
   );
 }
 
