@@ -394,13 +394,24 @@ function Chat() {
                 <div className="d-flex flex-column">
                   {messageHistory.map((message) => (
                     <div
-                      className={`alert mb-2 w-auto ${
+                      className={`w-auto ${
                         message.sender === currentUserName
-                          ? "align-self-end alert-secondary"
-                          : "align-self-start alert-primary"
+                          ? "align-self-end"
+                          : "align-self-start"
                       }`}
+                      key={message.id}
                     >
-                      {message.message_text}
+                      <span className="text-muted">{message.sent_at}</span>
+
+                      <div
+                        className={`alert mb-2 w-auto ${
+                          message.sender === currentUserName
+                            ? "alert-secondary"
+                            : "alert-primary"
+                        }`}
+                      >
+                        {message.message_text}
+                      </div>
                     </div>
                   ))}
                 </div>
