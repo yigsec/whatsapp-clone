@@ -48,7 +48,7 @@ if __name__ == "__main__":
         print('connection established')
 
         path = '001_api.up.sql'
-        dir = os.getcwd() + '/migrationts'
+        dir = os.getcwd() + '/mig'
         
         execute_transaction(connection, dir + '/' + path)
 
