@@ -1,13 +1,12 @@
 // Signup.js
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './Signup.css';
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   // const location = useLocation(); // useLocation hook'unu ekleyin
 
@@ -17,9 +16,9 @@ function Signup() {
       const url = `http://${base_url}/signup`;
 
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username,
@@ -28,8 +27,8 @@ function Signup() {
       });
 
       if (response.ok) {
-        toast.success('Signup successful!', {
-          position: 'top-right',
+        toast.success("Signup successful!", {
+          position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -44,8 +43,8 @@ function Signup() {
         }, 2000);
       } else {
         const data = await response.json();
-        toast.error(data.detail || 'Signup failed.', {
-          position: 'top-right',
+        toast.error(data.detail || "Signup failed.", {
+          position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -55,9 +54,9 @@ function Signup() {
         });
       }
     } catch (error) {
-      console.error('Signup error:', error);
-      toast.error('Signup failed.', {
-        position: 'top-right',
+      console.error("Signup error:", error);
+      toast.error("Signup failed.", {
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -69,37 +68,56 @@ function Signup() {
   };
 
   return (
-    <div className="signup-container">
-      <h2>Kayıt Ol</h2>
+    <body class="bg-light">
+      <div class="container vh-100 d-flex justify-content-center align-items-center">
+        <div
+          class="card shadow-sm p-4"
+          style={{ width: "100%", maxWidth: "400px" }}
+        >
+          <h3 class="text-center mb-4">Kayıt Ol</h3>
+          <form>
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                Kullanıcı Adı
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                class="form-control"
+                id="username"
+                placeholder="Kullanıcı adı giriniz..."
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">
+                Şifre
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                class="form-control"
+                id="password"
+                placeholder="Şifre Oluşturunuz..."
+              />
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary w-100"
+              onClick={handleSignup}
+            >
+              Kayıt Ol
+            </button>
+            <p class="text-center mt-3">
+              Hesabınız var mı? <Link to="/login">Giriş Yap</Link>
+            </p>
+          </form>
+        </div>
+      </div>
+
       <ToastContainer />
-      <form className="signup-form">
-        <label>
-          Kullanıcı Adı:
-        </label>
-        <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Kullanıcı adınızı girin"
-          />
-        <label>
-          Şifre:
-        </label>
-        <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Şifrenizi girin"
-          />
-        <button type="button" onClick={handleSignup}>
-          Kayıt Ol
-        </button>
-      </form>
-      <p>
-        Zaten hesabınız var mı?{' '}
-        <Link to="/login">Giriş yapın</Link>
-      </p>
-    </div>
+    </body>
   );
 }
 
