@@ -177,18 +177,6 @@ async def websocket_endpoint(websocket: WebSocket, user_name: str):
     for receiver in manager.connections:
         if receiver!=user_name:
             await manager.send_user_event_to_client(user_name, receiver, now, "login")
-
-    async def send_ping():
-        while True:
-            try:
-                await asyncio.sleep(30)  # Adjust interval as needed
-                await websocket.send_text("ping")  # Keep connection alive
-            except Exception as e:
-                logger.error(f"Error in ping task: {e}")
-                break
-
-    # Start the ping task
-    ping_task = asyncio.create_task(send_ping())
     
     try:
         while True:

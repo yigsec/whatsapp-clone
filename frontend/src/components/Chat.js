@@ -30,6 +30,8 @@ function Chat() {
 
   //--------------------------------------------------------------------------------------------------------------------------------
 
+  const reconnectDelay = useRef(1000);
+
   const startWebSocket = useCallback(() => {
     const accessToken = sessionStorage.getItem("access_token");
     const username = sessionStorage.getItem("username");
@@ -41,6 +43,7 @@ function Chat() {
 
       ws.current.onopen = () => {
         console.log("WebSocket connection opened");
+        reconnectDelay.current = 1000;
       };
 
       ws.current.onmessage = (event) => {
@@ -75,6 +78,13 @@ function Chat() {
 
       ws.current.onclose = () => {
         console.log("WebSocket connection closed");
+        if (!event.wasClean) {
+          setTimeout(() => {
+            console.log("Attempting to reconnect WebSocket...");
+            reconnectDelay.current = Math.min(reconnectDelay.current * 2, 30000); // Exponential backoff, capped at 30 seconds.
+            startWebSocket();
+          }, reconnectDelay.current);
+        }
       };
     }
   }, [selectedUser, setMessageHistory, ws]);
