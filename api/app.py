@@ -87,7 +87,7 @@ manager = ConnectionManager()
 
 
 @app.post("/signup")
-def signup(user: SignupRequet):
+def signup(user: SignupRequest):
     now = str(datetime.now())
     if user.username == None or user.username.replace(" ", "") == "":
         raise HTTPException(status_code=400, detail="Missing 'username' field in JSON.")
@@ -100,7 +100,7 @@ def signup(user: SignupRequet):
         raise HTTPException(status_code=500,detail=e)
 
     if existing_user:
-        raise HTTPException(status_code=400, detail="Bu kullanıcı adı zaten kullanılıyor.")
+        raise HTTPException(status_code=400, detail="This username already taken.")
 
     hashed_password = generate_password_hash(user.password, method='pbkdf2:sha256')
 
@@ -118,17 +118,17 @@ def signup(user: SignupRequet):
 
     try: 
         for receiver in manager.connections:
-            if receiver!=user.username:
+            if receiver != user.username:
                 asyncio.run(manager.send_user_event_to_client(user.username, receiver, now, "signup"))             
     except Exception as e:
         print("singnup suer event can't send", e)
 
 
-    return {"message": "Kullanıcı başarıyla kaydedildi."}
+    return {"message": "User successfully created."}
 
 
 @app.post("/login")
-def signup(request: LoginRequet):
+def signup(request: LoginRequest):
     if request.username.replace(" ", "") == "" or request.username == None:
         raise HTTPException(status_code=400,detail="Missing 'username' field in JSON.")
     if request.password.replace(" ", "") == "" or request.password == None:

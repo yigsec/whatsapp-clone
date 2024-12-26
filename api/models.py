@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
 
-class SignupRequet(BaseModel):
+class SignupRequest(BaseModel):
     username: str
     password: str
 
-class LoginRequet(BaseModel):
+class LoginRequest(BaseModel):
     username: str
     password: str
 

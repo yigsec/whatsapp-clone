@@ -3,7 +3,7 @@ from psycopg2 import sql
 import os
 
 POSTGRES_HOST='localhost'
-POSTGRES_PORT=5432
+POSTGRES_PORT=5433
 POSTGRES_DB='chat-app'
 POSTGRES_USER='admin'
 POSTGRES_PASSWORD='admin'
@@ -16,10 +16,10 @@ def postgres_connect(database, user, password, host, port):
             host=host,
             port=port
         )
-        print("Bağlantı başarılı.")
+        print("Connection Successful!")
         return connection
     except Exception as e:
-        print(f"Hata: {e}")
+        print(f"Error: {e}")
         return None
 
 
@@ -42,20 +42,14 @@ def execute_transaction(connection, script_path):
         print(f"Transaction failed: {e}")
 
 if __name__ == "__main__":
-    # Establish a connection
     connection = postgres_connect(POSTGRES_DB,POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT)
     
     if connection:
         print('connection established')
-        # Replace 'your_script.sql' with the actual name of your SQL script
-        script_paths = ['001_api.up.sql',
-                        '002_api.up.sql'
-                        ]
+
+        path = '001_api.up.sql'
         dir = os.getcwd() + '/migrationts'
         
-        # Execute the transaction
-        for path in script_paths:
-            execute_transaction(connection, dir + '/' + path)
+        execute_transaction(connection, dir + '/' + path)
 
-        # Close the connection
         connection.close()
