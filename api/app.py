@@ -89,9 +89,9 @@ manager = ConnectionManager()
 @app.post("/signup")
 def signup(user: SignupRequest):
     now = str(datetime.now())
-    if user.username == None or user.username.replace(" ", "") == "":
+    if not validate_field(user.username):
         raise HTTPException(status_code=400, detail="Missing 'username' field in JSON.")
-    if user.password == None or user.password.replace(" ", "") == "":
+    if not validate_field(user.password):
         raise HTTPException(status_code=400, detail="Missing 'password' field in JSON.")
     
     try:
@@ -121,7 +121,7 @@ def signup(user: SignupRequest):
             if receiver != user.username:
                 asyncio.run(manager.send_user_event_to_client(user.username, receiver, now, "signup"))             
     except Exception as e:
-        print("singnup suer event can't send", e)
+        print("Error sending signup event to users:", e)
 
 
     return {"message": "User successfully created."}
@@ -129,10 +129,10 @@ def signup(user: SignupRequest):
 
 @app.post("/login")
 def signup(request: LoginRequest):
-    if request.username.replace(" ", "") == "" or request.username == None:
-        raise HTTPException(status_code=400,detail="Missing 'username' field in JSON.")
-    if request.password.replace(" ", "") == "" or request.password == None:
-        raise HTTPException(status_code=400,detail="Missing 'password' field in JSON.")
+    if not validate_field(request.username):
+        raise HTTPException(status_code=400, detail="Missing 'username' field in JSON.")
+    if not validate_field(request.password):
+        raise HTTPException(status_code=400, detail="Missing 'password' field in JSON.")
 
     try:
         user = find_user_by_username(db_connection, request.username)
@@ -177,6 +177,18 @@ async def websocket_endpoint(websocket: WebSocket, user_name: str):
     for receiver in manager.connections:
         if receiver!=user_name:
             await manager.send_user_event_to_client(user_name, receiver, now, "login")
+
+    async def send_ping():
+        while True:
+            try:
+                await asyncio.sleep(30)  # Adjust interval as needed
+                await websocket.send_text("ping")  # Keep connection alive
+            except Exception as e:
+                logger.error(f"Error in ping task: {e}")
+                break
+
+    # Start the ping task
+    ping_task = asyncio.create_task(send_ping())
     
     try:
         while True:

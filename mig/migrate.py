@@ -4,9 +4,9 @@ import os
 
 POSTGRES_HOST='localhost'
 POSTGRES_PORT=5433
-POSTGRES_DB='chat-app'
-POSTGRES_USER='admin'
-POSTGRES_PASSWORD='admin'
+POSTGRES_DB='xmpp2'
+POSTGRES_USER='toor'
+POSTGRES_PASSWORD='toor'
 def postgres_connect(database, user, password, host, port):
     try:
         connection = psycopg2.connect(
@@ -47,9 +47,9 @@ if __name__ == "__main__":
     if connection:
         print('connection established')
 
-        path = '001_api.up.sql'
-        dir = os.getcwd() + '/mig'
+        sql_schema = 'schema.sql'
+        script_dir = os.path.realpath(os.path.dirname(__file__))
         
-        execute_transaction(connection, dir + '/' + path)
+        execute_transaction(connection, script_dir + '/' + sql_schema)
 
         connection.close()

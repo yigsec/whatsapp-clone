@@ -32,9 +32,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_DB: chat-app
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: xmpp2
+      POSTGRES_USER: toor
+      POSTGRES_PASSWORD: toor
     volumes:
       - ./conf/db/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
       - ./shared-data:/var/lib/postgresql/data

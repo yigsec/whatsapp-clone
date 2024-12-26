@@ -10,33 +10,49 @@ def postgres_connect(database, user, password, host, port):
             host=host,
             port=port
         )
-        print("Bağlantı başarılı.")
+        print("Connection successful to PostgreSQL")
         return connection
     except Exception as e:
-        print(f"Hata: {e}")
+        print(f"Error: {e}")
         return None
 
 def find_userid_by_username(connection, username):
-    cursor = connection.cursor()
-    query = sql.SQL(f"SELECT id FROM users WHERE username = '{username}'")
-    cursor.execute(query)
-    userid = cursor.fetchone()
-    cursor.close()
-    return userid[0]
-
-def insert_message(connection, sender_id, receiver_id, message, sent_at = ""):
     try:
         cursor = connection.cursor()
-        if sent_at == "":
-            query = sql.SQL("INSERT INTO messages (sender_id, receiver_id, message) VALUES ({}, {}, {})").format( sql.Literal(sender_id), sql.Literal(receiver_id), sql.Literal(message))
-        else:
-            query = sql.SQL("INSERT INTO messages (sender_id, receiver_id, message, sent_at) VALUES ({}, {}, {}, {})").format( sql.Literal(sender_id), sql.Literal(receiver_id), sql.Literal(message), sql.Literal(sent_at))
-        
-        cursor.execute(query)
-        connection.commit()
-    except psycopg2.Error as e:
+        query = "SELECT id FROM users WHERE username = %s"
+        cursor.execute(query, (username,))
+        result = cursor.fetchone()
+        cursor.close()
 
-        print(f"Error during message insertion: {e}")
-        cursor.rollback()
+        if result is not None:
+            return result[0]
+        else:
+            return None  # Return None if no user is found
+
+    except Exception as e:
+        print(f"Error finding user ID: {e}")
+        return None
+
+def insert_message(connection, sender_id, receiver_id, message, sent_at=None):
+    try:
+        cursor = connection.cursor()
+        if sent_at is None:
+            query = """
+                INSERT INTO messages (sender_id, receiver_id, message)
+                 VALUES (%s, %s, %s)
+            """
+            params = (sender_id, receiver_id, message)
+        else:
+            query = """
+                INSERT INTO messages (sender_id, receiver_id, message, sent_at)
+                 VALUES (%s, %s, %s, %s)
+            """
+            params = (sender_id, receiver_id, message, sent_at)
+        
+        cursor.execute(query, params)
+        connection.commit()
+    except Error as e:
+        connection.rollback()  # Rollback the transaction on failure
+        print(f"Error inserting message: {e}")
     finally:
         cursor.close()
